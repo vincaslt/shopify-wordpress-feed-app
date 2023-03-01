@@ -1,0 +1,23 @@
+.wp-feed-app_section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.wp-feed-app_article {
+  grid-column: span 4 / span 4;
+  display: flex;
+  flex-direction: column;
+}
+
+.wp-feed-app_article figure {
+  margin: 0;
+}
+
+.wp-feed-app_article__description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  white-space: pre-wrap;
+}

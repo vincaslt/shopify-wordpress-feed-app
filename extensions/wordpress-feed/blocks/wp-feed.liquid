@@ -1,0 +1,59 @@
+{% assign global_url = app.metafields.app_settings.blog_url %}
+
+<div
+  id="wp-feed-app"
+  data-url="{{ block.settings.url | default: global_url }}"
+  data-num_posts="{{ block.settings.num_posts }}"
+  class="wp-feed-app_section"
+>
+  {% # injected: dynamically generated articles from template %}
+</div>
+
+<template id="wp-feed-app_article">
+  <article class="wp-feed-app_article">
+    <figure>
+      <a href="{% # injected: post url %}" target="_blank" class="wp-feed-app_article__image-link">
+        <img
+          src="{% # injected: image url %}"
+          loading="lazy"
+          alt="{% # injected: image alt text %}"
+          height="200"
+          width="200"
+        >
+      </a>
+    </figure>
+    <div>
+      <h2>
+        <a href="{% # injected: post url %}" about="_blank" class="wp-feed-app_article__title-link">
+          {% # injected: post title %}
+        </a>
+      </h2>
+      <p class="wp-feed-app_article__description">
+        {% # injected: post excerpt %}
+      </p>
+    </div>
+  </article>
+</template>
+
+{% schema %}
+{
+  "name": "Wordpress Feed",
+  "target": "section",
+  "stylesheet": "wp-feed.css",
+  "javascript": "wp-feed.js",
+  "settings": [
+    {
+      "type": "number",
+      "id": "num_posts",
+      "label": "Number of latest posts",
+      "default": 3
+    },
+    {
+      "label": "Blog URL",
+      "id": "url",
+      "type": "url",
+      "info": "Overrides the global URL setting for this section only."
+    }
+  ]
+}
+{% endschema %}

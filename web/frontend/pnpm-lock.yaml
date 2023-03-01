@@ -4,7 +4,7 @@ specifiers:
   '@shopify/app-bridge': ^3.1.0
   '@shopify/app-bridge-react': ^3.1.0
   '@shopify/app-bridge-utils': ^3.1.0
-  '@shopify/polaris': ^9.11.0
+  '@shopify/polaris': ^10.32.0
   '@vitejs/plugin-react': 1.2.0
   history: ^5.3.0
   jsdom: ^19.0.0
@@ -20,7 +20,7 @@ dependencies:
   '@shopify/app-bridge': 3.7.2
   '@shopify/app-bridge-react': 3.7.2_react@17.0.2
   '@shopify/app-bridge-utils': 3.5.1
-  '@shopify/polaris': 9.24.0_sfoxds7t5ydpegc3knd667wn6m
+  '@shopify/polaris': 10.32.0_sfoxds7t5ydpegc3knd667wn6m
   '@vitejs/plugin-react': 1.2.0
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -393,22 +393,22 @@ packages:
       web-vitals: 3.1.1
     dev: false
 
-  /@shopify/polaris-icons/5.4.0:
-    resolution: {integrity: sha512-RzVSdwJuObO/4hS+DUCzY0jEQE0d6WFH5yFjTYqotMUGxe3tCUVdbuxxk/G1QbLVGQXYHmAvDXKbt+xSHwf+ow==}
+  /@shopify/polaris-icons/6.11.2:
+    resolution: {integrity: sha512-9WPAPq6HmCPdRQDeEmSMUg2Z9cXvJmXJR1mAF58ybHPMPIDJwZ3A7aGsH5FYdujYaYcgeI1zPiWWU+14jB4Vtw==}
     dev: false
 
-  /@shopify/polaris-tokens/5.5.2:
-    resolution: {integrity: sha512-1kYnaRU5MtSV+DMcSn5Mytrnsev1IO/trORD8BtiW+s2V85K5LoNqAZ1F1rRmJnZLAfe8XwlAixkR+sCDLSYmQ==}
+  /@shopify/polaris-tokens/6.6.1:
+    resolution: {integrity: sha512-42PzO03o4aIFNKnGiuNENnpGx9RB1uz3mCDAVSMyx1k+BNJ3wniS1H3PfN0vP2HQZbvpUBgd0Bvdh8nJgHA/vg==}
     dev: false
 
-  /@shopify/polaris/9.24.0_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-7ca3maYnyAmG7kcz7P7s9tW/09nLGT7AQv5E98ekw4aAL7ZWGTV3hAh7n7wo0Cc7RLepkSZgqDI1jdYk99nZGQ==}
+  /@shopify/polaris/10.32.0_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-UEUP0LVl4/U2WBULE0nLtsE6gKkTVMxyvlB14gL8ONGjKq5KWbxekdn5OVnLSsLRArgGkeoXHrUAgaHKl11zdQ==}
     peerDependencies:
-      react: ^16.14.0 || ^17.0.0
-      react-dom: ^16.14.0 || ^17.0.0
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@shopify/polaris-icons': 5.4.0
-      '@shopify/polaris-tokens': 5.5.2
+      '@shopify/polaris-icons': 6.11.2
+      '@shopify/polaris-tokens': 6.6.1
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
       '@types/react-transition-group': 4.4.5

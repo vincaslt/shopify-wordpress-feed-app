@@ -1,86 +1,127 @@
+import { Toast, useAuthenticatedFetch } from '@shopify/app-bridge-react';
 import {
-  Card,
-  Page,
+  ContextualSaveBar,
+  Frame,
   Layout,
-  TextContainer,
-  Image,
-  Stack,
-  Link,
-  Heading,
-} from "@shopify/polaris";
-import { TitleBar } from "@shopify/app-bridge-react";
+  LegacyCard,
+  Page,
+  Text,
+  TextField,
+} from '@shopify/polaris';
 
-import { trophyImage } from "../assets";
+import { useState } from 'react';
+import { useAppQuery } from '../hooks';
 
-import { ProductsCard } from "../components";
+const emptyToastProps = { content: null };
 
 export default function HomePage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [toastProps, setToastProps] = useState(emptyToastProps);
+  const [urlText, setUrlText] = useState('');
+  const fetch = useAuthenticatedFetch();
+
+  const { data: appSettingsData, refetch } = useAppQuery({
+    url: '/api/app-settings',
+    reactQueryOptions: {
+      onSuccess: (data) => {
+        setUrlText(data.url);
+        console.log(data);
+        setIsLoading(false);
+      },
+      onError: (error) => {
+        console.log('yep, error', error);
+      },
+      select: (data) => ({
+        ...data,
+        url: data.url ?? '',
+      }),
+    },
+  });
+
+  const handleChangeUrl = (value) => setUrlText(value);
+
+  const handleClickSave = async () => {
+    setIsLoading(true);
+    const response = await fetch('/api/app-settings', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url: urlText }),
+    });
+
+    await refetch();
+
+    if (response.ok) {
+      setToastProps({ content: 'App settings were saved successfully' });
+    } else {
+      setToastProps({
+        content: 'There was an error saving the app settings',
+        error: true,
+      });
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleClickDismiss = () => {
+    setUrlText(appSettingsData.url);
+  };
+
+  const hasUnsavedChanges = appSettingsData && urlText !== appSettingsData.url;
+
   return (
-    <Page narrowWidth>
-      <TitleBar title="App name" primaryAction={null} />
-      <Layout>
-        <Layout.Section>
-          <Card sectioned>
-            <Stack
-              wrap={false}
-              spacing="extraTight"
-              distribution="trailing"
-              alignment="center"
-            >
-              <Stack.Item fill>
-                <TextContainer spacing="loose">
-                  <Heading>Nice work on building a Shopify app 🎉</Heading>
-                  <p>
-                    Your app is ready to explore! It contains everything you
-                    need to get started including the{" "}
-                    <Link url="https://polaris.shopify.com/" external>
-                      Polaris design system
-                    </Link>
-                    ,{" "}
-                    <Link url="https://shopify.dev/api/admin-graphql" external>
-                      Shopify Admin API
-                    </Link>
-                    , and{" "}
-                    <Link
-                      url="https://shopify.dev/apps/tools/app-bridge"
-                      external
-                    >
-                      App Bridge
-                    </Link>{" "}
-                    UI library and components.
-                  </p>
-                  <p>
-                    Ready to go? Start populating your app with some sample
-                    products to view and test in your store.{" "}
-                  </p>
-                  <p>
-                    Learn more about building out your app in{" "}
-                    <Link
-                      url="https://shopify.dev/apps/getting-started/add-functionality"
-                      external
-                    >
-                      this Shopify tutorial
-                    </Link>{" "}
-                    📚{" "}
-                  </p>
-                </TextContainer>
-              </Stack.Item>
-              <Stack.Item>
-                <div style={{ padding: "0 20px" }}>
-                  <Image
-                    source={trophyImage}
-                    alt="Nice work on building a Shopify app"
-                    width={120}
-                  />
-                </div>
-              </Stack.Item>
-            </Stack>
-          </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <ProductsCard />
-        </Layout.Section>
-      </Layout>
+    <Page title="WordPress Feed App" divider>
+      <Frame>
+        {hasUnsavedChanges && (
+          <ContextualSaveBar
+            alignContentFlush
+            message="Unsaved changes"
+            saveAction={{
+              onAction: handleClickSave,
+              loading: isLoading,
+            }}
+            discardAction={{
+              onAction: handleClickDismiss,
+            }}
+          />
+        )}
+        {toastProps.content && (
+          <Toast
+            {...toastProps}
+            onDismiss={() => setToastProps(emptyToastProps)}
+          />
+        )}
+        <Layout>
+          <Layout.AnnotatedSection
+            id="storeDetails"
+            title="Global settings"
+            description="These settings will by default be used across all App Blocks in your theme."
+          >
+            <LegacyCard>
+              <LegacyCard.Section>
+                <TextField
+                  label="WordPress blog URL"
+                  type="url"
+                  value={urlText ?? ''}
+                  onChange={handleChangeUrl}
+                  placeholder="e.g. https://blog.myshopifystore.com"
+                />
+              </LegacyCard.Section>
+              <LegacyCard.Section
+                title={
+                  <Text variant="headingXs" as="h3">
+                    {'Theme Configuration'.toUpperCase()}
+                  </Text>
+                }
+                subdued
+              >
+                <p>TODO: button link to theme</p>
+              </LegacyCard.Section>
+            </LegacyCard>
+          </Layout.AnnotatedSection>
+        </Layout>
+      </Frame>
     </Page>
   );
 }
