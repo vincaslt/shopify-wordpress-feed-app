@@ -1,17 +1,28 @@
 (async () => {
   const rootEl = document.getElementById('wp-feed-app');
+  const feedEl = document.getElementById('wp-feed-app_feed');
   const url = rootEl.getAttribute('data-url')?.replace(/\/$/, '') || '';
-  const numPosts =
-    rootEl.getAttribute('data-num_posts')?.replace(/\/$/, '') || '';
 
   if (!url) {
     return;
   }
 
-  const posts = await fetchPosts();
-  const feedEl = renderFeed(rootEl, posts);
+  const getNumPosts = (breakpoint, defaultNumPosts = 3) => {
+    return Number(
+      rootEl.getAttribute(`data-num_posts_${breakpoint}`) ?? defaultNumPosts
+    );
+  };
 
-  rootEl.replaceWith(feedEl);
+  const numPosts = Math.max(
+    getNumPosts('lg'),
+    getNumPosts('md'),
+    getNumPosts('sm')
+  );
+
+  const posts = await fetchPosts();
+  const newFeedEl = renderFeed(feedEl, posts ?? []);
+
+  feedEl.replaceWith(newFeedEl);
 
   async function fetchPosts() {
     return fetch(
@@ -49,24 +60,32 @@
       const el = createNewArticleNode();
 
       const imageLinkEl = el.querySelector('.wp-feed-app_article__image-link');
-      imageLinkEl.setAttribute('href', link);
+      if (imageLinkEl) {
+        imageLinkEl.setAttribute('href', link);
+      }
 
       const titleLinkEl = el.querySelector('.wp-feed-app_article__title-link');
-      titleLinkEl.setAttribute('href', link);
-      titleLinkEl.innerHTML = title;
-      titleLinkEl.innerHTML = titleLinkEl.textContent.trim();
+      if (titleLinkEl) {
+        titleLinkEl.setAttribute('href', link);
+        titleLinkEl.innerHTML = title;
+        titleLinkEl.innerHTML = titleLinkEl.textContent.trim();
+      }
 
       const descriptionEl = el.querySelector(
         '.wp-feed-app_article__description'
       );
-      descriptionEl.innerHTML = excerpt;
-      descriptionEl.innerHTML = descriptionEl.textContent.trim();
+      if (descriptionEl) {
+        descriptionEl.innerHTML = excerpt;
+        descriptionEl.innerHTML = descriptionEl.textContent.trim();
+      }
 
       const imageEl = el.querySelector('img');
-      imageEl.setAttribute('src', media.source_url);
-      imageEl.setAttribute('alt', media.alt_text);
-      imageEl.setAttribute('width', '100%');
-      imageEl.setAttribute('height', 'auto');
+      if (imageEl) {
+        imageEl.setAttribute('src', media.source_url);
+        imageEl.setAttribute('alt', media.alt_text);
+        imageEl.setAttribute('width', '100%');
+        imageEl.setAttribute('height', 'auto');
+      }
 
       return el;
     }

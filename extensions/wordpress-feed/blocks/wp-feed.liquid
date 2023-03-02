@@ -3,37 +3,103 @@
 <div
   id="wp-feed-app"
   data-url="{{ block.settings.url | default: global_url }}"
-  data-num_posts="{{ block.settings.num_posts }}"
+  data-num_posts_lg="{{ block.settings.num_posts_lg }}"
+  data-num_posts_md="{{ block.settings.num_posts_md }}"
+  data-num_posts_sm="{{ block.settings.num_posts_sm }}"
   class="wp-feed-app_section"
 >
-  {% # injected: dynamically generated articles from template %}
+  {% if block.settings.show_heading %}
+    <div
+      class="wp-feed-app_heading-wrapper"
+    >
+      <h2 class="wp-feed-app_heading h1">
+        {{ block.settings.heading }}
+      </h2>
+    </div>
+  {% endif %}
+
+  <div id="wp-feed-app_feed" class="wp-feed-app_feed">
+    {% # injected: dynamically generated articles from template %}
+  </div>
 </div>
 
 <template id="wp-feed-app_article">
   <article class="wp-feed-app_article">
-    <figure>
-      <a href="{% # injected: post url %}" target="_blank" class="wp-feed-app_article__image-link">
-        <img
-          src="{% # injected: image url %}"
-          loading="lazy"
-          alt="{% # injected: image alt text %}"
-          height="200"
-          width="200"
-        >
-      </a>
-    </figure>
-    <div>
-      <h2>
-        <a href="{% # injected: post url %}" about="_blank" class="wp-feed-app_article__title-link">
-          {% # injected: post title %}
+    {% if block.settings.show_image %}
+      <figure>
+        <a href="{% # injected: post url %}" target="_blank" class="wp-feed-app_article__image-link">
+          <img
+            src="{% # injected: image url %}"
+            loading="lazy"
+            alt="{% # injected: image alt text %}"
+            height="200"
+            width="200"
+          >
         </a>
-      </h2>
-      <p class="wp-feed-app_article__description">
-        {% # injected: post excerpt %}
-      </p>
+      </figure>
+    {% endif %}
+    <div>
+      {% if block.settings.show_title %}
+        <h3 class="wp-feed-app_article__title">
+          <a href="{% # injected: post url %}" about="_blank" class="wp-feed-app_article__title-link">
+            {% # injected: post title %}
+          </a>
+        </h3>
+      {% endif %}
+
+      {% if block.settings.show_excerpt %}
+        <p class="wp-feed-app_article__description">
+          {% # injected: post excerpt %}
+        </p>
+      {% endif %}
     </div>
   </article>
 </template>
+
+{% assign grid_cols_sm = block.settings.num_posts_sm | plus: 1 %}
+{% assign grid_cols_md = block.settings.num_posts_md | plus: 1 %}
+{% assign grid_cols_lg = block.settings.num_posts_lg | plus: 1 %}
+
+{% style %}
+  .wp-feed-app_feed {
+    gap: {{ block.settings.gap_size }}px;
+  }
+
+  .wp-feed-app_article__description {
+    -webkit-line-clamp: {{ block.settings.num_excerpt_lines }};
+  }
+
+  .wp-feed-app_article {
+    grid-column: span calc(12 / {{ block.settings.num_cols_sm }}) / span calc(12 / {{ block.settings.num_cols_sm }});
+  }
+  .wp-feed-app_article:nth-child(n+{{ grid_cols_sm }})  {
+    display: none;
+  }
+
+  @media screen and (min-width: {{ block.settings.md_breakpoint }}px) {
+    .wp-feed-app_article {
+      grid-column: span calc(12 / {{ block.settings.num_cols_md }}) / span calc(12 / {{ block.settings.num_cols_md }});
+    }
+    .wp-feed-app_article:nth-child(-n+{{ grid_cols_md }})  {
+      display: block;
+    }
+    .wp-feed-app_article:nth-child(n+{{ grid_cols_md }})  {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: {{ block.settings.lg_breakpoint }}px) {
+    .wp-feed-app_article {
+      grid-column: span calc(12 / {{ block.settings.num_cols_lg }}) / span calc(12 / {{ block.settings.num_cols_lg }});
+    }
+    .wp-feed-app_article:nth-child(-n+{{ grid_cols_lg }})  {
+      display: block;
+    }
+    .wp-feed-app_article:nth-child(n+{{ grid_cols_lg }})  {
+      display: none;
+    }
+  }
+{% endstyle %}
 
 {% schema %}
 {
@@ -43,17 +109,107 @@
   "javascript": "wp-feed.js",
   "settings": [
     {
-      "type": "number",
-      "id": "num_posts",
-      "label": "Number of latest posts",
+      "type": "header",
+      "content": "Section settings"
+    },
+    { "label": "Section heading", "id": "heading", "type": "text" },
+    { "label": "Show section heading", "id": "show_heading", "type": "checkbox", "default": true },
+    {
+      "type": "header",
+      "content": "Post settings"
+    },
+    { "label": "Show post title", "id": "show_title", "type": "checkbox", "default": true },
+    { "label": "Show post image", "id": "show_image", "type": "checkbox", "default": true },
+    { "label": "Show post excerpt", "id": "show_excerpt", "type": "checkbox", "default": true },
+    {
+      "type": "range",
+      "id": "num_excerpt_lines",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Max excerpt lines",
       "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Feed settings"
+    },
+    {
+      "type": "range",
+      "id": "num_posts_lg",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Number of blog posts on desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "num_posts_md",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Number of blog posts on tablet",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "num_posts_sm",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Number of blog posts on mobile",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "num_cols_lg",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Number of columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "num_cols_md",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Number of columns on tablet",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "num_cols_sm",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Number of columns on mobile",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "gap_size",
+      "min": 0,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "label": "Gap between blog posts",
+      "default": 20
     },
     {
       "label": "Blog URL",
       "id": "url",
       "type": "url",
-      "info": "Overrides the global URL setting for this section only."
-    }
+      "info": "Overrides the global URL setting for this feed only."
+    },
+    {
+      "type": "header",
+      "content": "Advanced settings"
+    },
+    { "label": "Large breakpoint (Desktop), px", "id": "lg_breakpoint", "type": "number", "default": 990 },
+    { "label": "Medium breakpoint (Tablet), px", "id": "md_breakpoint", "type": "number", "default": 600 }
   ]
 }
 {% endschema %}
