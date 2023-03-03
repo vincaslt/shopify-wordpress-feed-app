@@ -1,4 +1,4 @@
 # This file stores configurations for your Shopify app.
 
 name = "WordPress Feed"
-scopes = ""
+scopes = "write_themes"
