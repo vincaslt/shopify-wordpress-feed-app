@@ -1,24 +1,24 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@shopify/shopify-app-express': ^1.1.0
-  '@shopify/shopify-app-session-storage-sqlite': ^1.0.0
-  compression: ^1.7.4
-  cross-env: ^7.0.3
-  nodemon: ^2.0.15
-  prettier: ^2.6.2
-  pretty-quick: ^3.1.3
-  serve-static: ^1.14.1
+  '@shopify/shopify-app-express': 1.2.2
+  '@shopify/shopify-app-session-storage-sqlite': 1.2.0
+  compression: 1.7.4
+  cross-env: 7.0.3
+  nodemon: 2.0.21
+  prettier: 2.8.4
+  pretty-quick: 3.1.3
+  serve-static: 1.15.0
 
 dependencies:
-  '@shopify/shopify-app-express': 1.2.1
-  '@shopify/shopify-app-session-storage-sqlite': 1.1.0
+  '@shopify/shopify-app-express': 1.2.2
+  '@shopify/shopify-app-session-storage-sqlite': 1.2.0
   compression: 1.7.4
   cross-env: 7.0.3
   serve-static: 1.15.0
 
 devDependencies:
-  nodemon: 2.0.20
+  nodemon: 2.0.21
   prettier: 2.8.4
   pretty-quick: 3.1.3_prettier@2.8.4
 
@@ -84,12 +84,12 @@ packages:
       - encoding
     dev: false
 
-  /@shopify/shopify-app-express/1.2.1:
-    resolution: {integrity: sha512-dYd34SsZyHeiDBMD0J29jQSX54A5Rp9Oybdq9x3SYeAmAud+Ifilv554AREwcvf9eVZa8IoMKaI1OXNqVwVnYw==}
+  /@shopify/shopify-app-express/1.2.2:
+    resolution: {integrity: sha512-MjMXkOlzOwVCygkxXpP1LZ9o25cJnKp4SIDgEEjPM6Fy2NpO+T5luCO0VCI2/cuPwkTLbl4C1GD8oT8346/NOQ==}
     dependencies:
       '@shopify/shopify-api': 6.2.0
-      '@shopify/shopify-app-session-storage': 1.1.0
-      '@shopify/shopify-app-session-storage-memory': 1.0.3
+      '@shopify/shopify-app-session-storage': 1.1.1
+      '@shopify/shopify-app-session-storage-memory': 1.0.4
       cookie-parser: 1.4.6
       express: 4.18.2
       semver: 7.3.8
@@ -99,21 +99,21 @@ packages:
       - supports-color
     dev: false
 
-  /@shopify/shopify-app-session-storage-memory/1.0.3:
-    resolution: {integrity: sha512-E8D0WfVif6A+02exLAAVoTCEtzvMUy+FxP0qTKLwOWRjwGhLOGlgnvVHpL5HhAiBzYsleyoYhFBQ6XxrwmPBlg==}
+  /@shopify/shopify-app-session-storage-memory/1.0.4:
+    resolution: {integrity: sha512-uOWyYgfSeAk+7+RRW1QVgjuQkKX2STeTER/+tp3xAr4kY1A/2DojURZPT8FquWchK6yEhIiYjoWoQlPIl+DExA==}
     dependencies:
       '@shopify/shopify-api': 6.2.0
-      '@shopify/shopify-app-session-storage': 1.1.0
+      '@shopify/shopify-app-session-storage': 1.1.1
       tslib: 2.5.0
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@shopify/shopify-app-session-storage-sqlite/1.1.0:
-    resolution: {integrity: sha512-UluoZBvn7+JX1gCvNLANOqHGEpaJ97PPG0ZCbvFyWJTUFoWXohVEb0aNarom5hZnOBqywUWPxdGcjPki9JhX5A==}
+  /@shopify/shopify-app-session-storage-sqlite/1.2.0:
+    resolution: {integrity: sha512-4wGgw8iJGw4bUTVrqQxcgJ8SkKQf57r13k5Yit5u7cPX+0PfrJjnHyjxEj9n72dfrXlvwnP2RbhRba4bT5KRkg==}
     dependencies:
       '@shopify/shopify-api': 6.2.0
-      '@shopify/shopify-app-session-storage': 1.1.0
+      '@shopify/shopify-app-session-storage': 1.1.1
       sqlite3: 5.1.4
       tslib: 2.5.0
     transitivePeerDependencies:
@@ -122,8 +122,8 @@ packages:
       - supports-color
     dev: false
 
-  /@shopify/shopify-app-session-storage/1.1.0:
-    resolution: {integrity: sha512-z+z7blOTBEl52jWbIs3L1JlSOC1mgnugJydXKMFwtI7mq8QShSxKLqgW6l6klkA20HG+vSr6qIwnbJ+O2RgpNA==}
+  /@shopify/shopify-app-session-storage/1.1.1:
+    resolution: {integrity: sha512-1OK51Fi/8pzdbUrlk6IdoyW0RieGo+p0bv4wX6U5RQCyB5cugHPEYn7yi/O4UzMJZq4xIQWyOb6wiE5Z8LpLvw==}
     dependencies:
       '@shopify/shopify-api': 6.2.0
       tslib: 2.5.0
@@ -1218,8 +1218,8 @@ packages:
     dev: false
     optional: true
 
-  /nodemon/2.0.20:
-    resolution: {integrity: sha512-Km2mWHKKY5GzRg6i1j5OxOHQtuvVsgskLfigG25yTtbyfRGn/GNvIbRyOf1PSCKJ2aT/58TiuUsuOU5UToVViw==}
+  /nodemon/2.0.21:
+    resolution: {integrity: sha512-djN/n2549DUtY33S7o1djRCd7dEm0kBnj9c7S9XVXqRUbuggN1MZH/Nqa+5RFQr63Fbefq37nFXAE9VU86yL1A==}
     engines: {node: '>=8.10.0'}
     hasBin: true
     dependencies:

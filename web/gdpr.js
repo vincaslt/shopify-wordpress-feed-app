@@ -1,4 +1,4 @@
-import { DeliveryMethod } from "@shopify/shopify-api";
+import { DeliveryMethod } from '@shopify/shopify-api';
 
 export default {
   /**
@@ -9,7 +9,7 @@ export default {
    */
   CUSTOMERS_DATA_REQUEST: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/api/webhooks",
+    callbackUrl: '/api/webhooks',
     callback: async (topic, shop, body, webhookId) => {
       const payload = JSON.parse(body);
       // Payload has the following shape:
@@ -41,7 +41,7 @@ export default {
    */
   CUSTOMERS_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/api/webhooks",
+    callbackUrl: '/api/webhooks',
     callback: async (topic, shop, body, webhookId) => {
       const payload = JSON.parse(body);
       // Payload has the following shape:
@@ -70,7 +70,7 @@ export default {
    */
   SHOP_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/api/webhooks",
+    callbackUrl: '/api/webhooks',
     callback: async (topic, shop, body, webhookId) => {
       const payload = JSON.parse(body);
       // Payload has the following shape:
